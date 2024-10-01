@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "LIww/4/Hg/s=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Onurc\\OneDrive\\Masaüstü\\c#\\ConsoleApp2\\ConsoleApp2\\ConsoleApp2.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Onurc\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512"
+  ],
+  "logs": []
+}

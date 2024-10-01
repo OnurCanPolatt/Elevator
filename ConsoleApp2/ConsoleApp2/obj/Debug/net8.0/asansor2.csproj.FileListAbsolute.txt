@@ -1,0 +1,4 @@
+C:\Users\Onurc\OneDrive\Masaüstü\c#\ConsoleApp2\ConsoleApp2\obj\Debug\net8.0\asansor2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Onurc\OneDrive\Masaüstü\c#\ConsoleApp2\ConsoleApp2\obj\Debug\net8.0\asansor2.AssemblyInfoInputs.cache
+C:\Users\Onurc\OneDrive\Masaüstü\c#\ConsoleApp2\ConsoleApp2\obj\Debug\net8.0\asansor2.AssemblyInfo.cs
+C:\Users\Onurc\OneDrive\Masaüstü\c#\ConsoleApp2\ConsoleApp2\obj\Debug\net8.0\asansor2.csproj.CoreCompileInputs.cache
