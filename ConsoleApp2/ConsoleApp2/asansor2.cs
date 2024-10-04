@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System;
 using System.Globalization;
 using System.Net;
 
@@ -7,7 +8,7 @@ internal class Program
     private static void Main(string[] args)
     {
         int build = 15;//build has a 10 floor
-        int whereYouAre = 6;
+        List<int> whereYouAre = new List<int>();
         List<int> elevatorFloor = new List<int>();
         List<int> clickFloors = new List<int>();
         List<int> downFLoors = new List<int>();
@@ -84,50 +85,57 @@ internal class Program
             elevatorComingFrom();
         }
 
-        int elevatorComingFrom()
+        void elevatorComingFrom()
         {
             Random random = new Random();
             int randomindex = random.Next(clickFloors.Count);
             elevatorFloor.Add(clickFloors[randomindex]);
-            Console.WriteLine($"Elevator stays:{elevatorFloor[0]}.floor");
+            Console.WriteLine($"Elevator stays:{elevatorFloor[elevatorFloor.Count - 1]}.floor");
+
             elevatorCall();
-            return elevatorFloor[0];
+
         }
         int elevatorCall()
-
         {
-            Console.WriteLine($"Your floor:{whereYouAre}");
+            whereYouAre.Clear();
+            Random random = new Random();
+            int randomWhere = random.Next(0, build);
+            whereYouAre.Add(randomWhere);
+            Console.WriteLine($"First call:{string.Join(",", whereYouAre)}");
+
+
+
             Console.WriteLine("Elevator Coming:");
-            if (elevatorFloor[0] < whereYouAre)
+            if (elevatorFloor[elevatorFloor.Count - 1] < whereYouAre[whereYouAre.Count - 1])
             {
-                for (int i = elevatorFloor[0]; i <= whereYouAre; i++)
+                for (int i = elevatorFloor[elevatorFloor.Count - 1]; i <= whereYouAre[whereYouAre.Count - 1]; i++)
                 {
                     Console.WriteLine(i);
-                    elevatorFloor[0] = i;
+                    elevatorFloor[elevatorFloor.Count - 1] = i;
 
                 }
             }
-            else if (elevatorFloor[0] > whereYouAre)
+            else if (elevatorFloor[elevatorFloor.Count - 1] > whereYouAre[whereYouAre.Count - 1])
             {
-                for (int i = elevatorFloor[0]; i >= whereYouAre; i--)
+                for (int i = elevatorFloor[elevatorFloor.Count - 1]; i >= whereYouAre[whereYouAre.Count - 1]; i--)
                 {
                     Console.WriteLine(i);
-                    elevatorFloor[0] = i;
+                    elevatorFloor[elevatorFloor.Count - 1] = i;
 
                 }
             }
             else
             {
                 Console.WriteLine("You already at your floor.\n You can get in and click wheredoyougo");
-                elevatorProcess(whereYouAre);
+                elevatorProcess(whereYouAre, elevatorFloor);
             }
             Console.WriteLine("You can get in.");
-            elevatorProcess(whereYouAre);
-            return elevatorFloor[0];
+            elevatorProcess(whereYouAre, elevatorFloor);
+            return elevatorFloor[elevatorFloor.Count - 1];
 
         }
 
-        int elevatorProcess(int whereYouAre)
+        (int, int) elevatorProcess(List<int> whereYouAre, List<int> elevatorFloor)
         {
             while (true)
             {
@@ -137,7 +145,7 @@ internal class Program
                     Console.WriteLine("Please enter a valid number.");
                     continue;
                 }
-                if (whereDoYouGo == whereYouAre)
+                if (whereDoYouGo == whereYouAre[whereYouAre.Count - 1])
                 {
                     Console.Write($"You are already at your floor.{whereYouAre}.\nAgain click another floor.");
                     continue;
@@ -147,6 +155,16 @@ internal class Program
                 {
                     Console.WriteLine("Please enter a valid floor number.");
                     continue;
+                }
+                if (clickFloors.Contains(whereDoYouGo))
+                {
+                }
+                else
+                {
+                    clickFloors.Add(whereDoYouGo);
+                    Console.WriteLine("Your new click added to list");
+                    Console.WriteLine($"New upgraded list:{string.Join(",", clickFloors)}");
+
                 }
 
                 int index = clickFloors.IndexOf(whereDoYouGo);
@@ -158,132 +176,168 @@ internal class Program
 
                 int? closeDown = (index > 0) ? (int?)clickFloors[index - 1] : null;
                 int? closeUp = (index < clickFloors.Count - 1) ? (int?)clickFloors[index + 1] : null;
-                int downSubstrack = closeDown.HasValue ? Math.Abs(whereDoYouGo - closeDown.Value) : int.MaxValue;
-                int upSubstract = closeUp.HasValue ? Math.Abs(whereDoYouGo - closeUp.Value) : int.MaxValue;
+                int downSubtract = closeDown.HasValue ? Math.Abs(whereDoYouGo - closeDown.Value) : int.MaxValue;
+                int upSubtract = closeUp.HasValue ? Math.Abs(whereDoYouGo - closeUp.Value) : int.MaxValue;
 
-                Console.WriteLine($"downSubstrack value: {downSubstrack}");
-                Console.WriteLine($"upSubstract value: {upSubstract}");
+                Console.WriteLine($"downSubtract value: {downSubtract}");
+                Console.WriteLine($"upSubtract value: {upSubtract}");
+                return elevatorGoes(downSubtract, upSubtract, whereDoYouGo);
+            }
 
-                return elevatorGoes(whereDoYouGo, downSubstrack, upSubstract);
+        }
 
+
+        (int, int) elevatorGoes(int downSubtract, int upSubtract, int whereDoYouGo)
+        {
+            if (whereDoYouGo == whereYouAre[whereYouAre.Count - 1])
+            {
+                Console.WriteLine($"You are already at floor {whereYouAre[whereYouAre.Count - 1]}.");
+
+            }
+
+            if (downSubtract > upSubtract)
+            {
+                return moveUp(whereDoYouGo, whereYouAre);
+            }
+            else
+            {
+                return moveDown(whereDoYouGo, whereYouAre);
             }
         }
 
-        int elevatorGoes(int targetFloor, int downSubstrack, int upSubstract)
+        (int, int) moveDown(int whereDoYouGo, List<int> whereYouAre)
         {
-
-            if (downSubstrack >= upSubstract)
-            {
-
-                return moveUp(targetFloor);
-
-            }
-
-            else if (downSubstrack < upSubstract)
-            {
-                return moveDown(targetFloor);
-            }
-            
-            return targetFloor;
-        }
-        int moveDown(int targetFloor)
-        {
+            bool getOff = true;
             Console.WriteLine("Elevator going down:");
-            for (int i = whereYouAre; i >= targetFloor; i--)
+            for (int i = whereYouAre[whereYouAre.Count - 1]; i >= clickFloors[0]; i--)
             {
+
                 if (clickFloors.Contains(i))
                 {
                     Console.WriteLine($"Elevator at:{i}.floor");
-                    if (i == targetFloor)
+                    if (i == whereDoYouGo)
                     {
+                        getOff = false;
                         Console.WriteLine("You can get off");
-                        whereYouAre = i;
+
                     }
                 }
-            }
-            return nextDown(whereYouAre);
+                else
+                {
+                    Console.WriteLine($"Elevator not waiting this floor:{i}...!");
+                }
 
+            }
+            Console.WriteLine("Now elevator going up ");
+            for (int j = clickFloors[0]; j <= clickFloors[clickFloors.Count - 1]; j++)
+            {
+
+                if (clickFloors.Contains(j))
+                {
+                    Console.WriteLine($"Elevator at:{j}.floor");
+                    if (getOff && j == whereDoYouGo)
+                    {
+                        Console.WriteLine("You can get off");
+
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine($"Elevator not waiting this floor:{j}...!");
+                }
+                whereYouAre.Add(j);
+                elevatorFloor.Clear();
+                elevatorFloor.Add(j);
+            }
+            Console.WriteLine("---------------------------------------------------");
+
+            Console.WriteLine("Please click the floor goes on ");
+            clickFloors.Clear();
+            clickFloor();
+            return (whereYouAre[whereYouAre.Count - 1], whereDoYouGo);
         }
-        int moveUp(int targetFloor)
+        (int, int) moveUp(int whereDoYouGo, List<int> whereYouAre)
         {
+            bool getOff = true;
             Console.WriteLine("Elevator going up:");
-            for (int i = whereYouAre; i <= targetFloor; i++)
+            for (int i = whereYouAre[whereYouAre.Count - 1]; i <= clickFloors[clickFloors.Count - 1]; i++)
             {
+
                 if (clickFloors.Contains(i))
                 {
                     Console.WriteLine($"Elevator at:{i}.floor");
-                    if (i == targetFloor)
+                    if (i == whereDoYouGo)
                     {
+                        getOff = false;
                         Console.WriteLine("You can get off");
-                        whereYouAre = i;
+
                     }
                 }
+                else
+                {
+                    Console.WriteLine("Elevator not waiting this floor...!");
+                }
             }
+            Console.WriteLine("Now elevator going down ");
+            for (int j = clickFloors[clickFloors.Count - 1]; j >= clickFloors[0]; j--)
+            {
 
-            return nextUp(whereYouAre);          
+                if (clickFloors.Contains(j))
+                {
+                    Console.WriteLine($"Elevator at:{j}.floor");
+                    if (getOff && j == whereDoYouGo)
+                    {
+                        Console.WriteLine("You can get off");
+
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine($"Elevator not waiting this floor:{j}...!");
+                }
+                whereYouAre.Add(j);
+                elevatorFloor.Clear();
+                elevatorFloor.Add(j);
+            }
+            Console.WriteLine("---------------------------------------------------");
+
+            Console.WriteLine("Please click the floor goes on ");
+            clickFloors.Clear();
+            clickFloor();
+            return (whereYouAre[whereYouAre.Count - 1], whereDoYouGo);
         }
-        int nextUp(int whereYouAre)
-        {
-            Console.WriteLine("Elevator continue to going up");
-            for (int i = whereYouAre; i <= clickFloors.Count; i++)
-            {
-                Console.WriteLine($"Elevator at:{i}.floor");
-                whereYouAre = i;
 
-            }
-            Console.WriteLine("Now,elevator going from last floor to initial floor:");
-            for (int j = clickFloors.Count - 1; j >= 0; j--)
-            {
-
-                Console.WriteLine($"Elevator at:{j}.floor");
-                whereYouAre = j;
-
-            }
-            return elevatorProcess(whereYouAre);
-        }
-        int nextDown(int whereYouAre)
-        {
-            Console.WriteLine("Elevator continue to going down");
-            for (int i = whereYouAre; i >= clickFloors[0]; i--)
-            {
-                Console.WriteLine($"Elevator at:{i}.floor");
-                whereYouAre = i;
-
-            }
-            
-            Console.WriteLine("Now,elevator going from initial floor to last floor:");
-            for (int j = clickFloors[0]; j <= clickFloors.Count; j++)
-            {
-
-                Console.WriteLine($"Elevator at:{j}.floor");
-                whereYouAre = j;
-            }
-            return elevatorProcess(whereYouAre);
-        }
-        
         clickFloor();
+
     }
-
-
 }
 
-// asansor tüm işlemleri tamamladıktan sonra en son bulunduğu kattan yukarı doğru çıksın
-// yukarı doğru çıkarken veya yukardan aşşağı iniyorsa bu sırada kullanıcıdan aldığı gidilecek kat
-//kısmında indirsin ve 'yo can get off' yazısını versin.
-//bunları en son nextdown ve next up'tan güncel parametreleri alıp yeni fonksiyonlara atayıp, yeni fonksiyon
-//yazıp whredoyougo biligsini alıp o fonksiyonları çağırarak sürekli işlemleri tekrar ettirebilirsin.
-
-//ya da en son elevatorProcess() çağırdığın kısımda process fonksiyonuna gidip düzenlemeler yapabilirsin.
 
 
 
-//ayrıyetten bu kodun çalışmasında revize etmek istersen şöyle bir problem var;
-//tuşlamaları listeye aldıktan sonra çıkılacak kat bilgisini de alıyoruz sonrasında
-//eğer ki gidilecek kat o listede yoksa hata alıyoruz almamamız lazım
-//çözümü şudur;
-//orda bilgiyi aldıktan sonra listeye o bilgiyi ata ve işlemlere devam et 
-//fakat listeyi globalde 15 eleman ile sınırladın.Kat bilgisini fonksiyonda alırken
-//aynı zamanda l,ste eleman sayısını da 1 arttır ki o kat listede yoksa ekle ve işleme devam edebil.Yarın bunu araştır...
+// asansor tum islemleri tamamladiktan sonra en son bulundugu kattan yukari dogru ciksin
+// yukari dogru cikarken veya yukardan assagi iniyorsa bu sirada kullanicidan aldigi gidilecek kat
+//kisminda indirsin ve 'yo can get off' yazisini versin.
+//bunlari en son nextdown ve next up'tan guncel parametreleri alip yeni fonksiyonlara atayip, yeni fonksiyon
+//yazip whredoyougo biligsini alip o fonksiyonlari cagirarak surekli islemleri tekrar ettirebilirsin.
+
+//ya da en son elevatorProcess() cagirdigin kisimda process fonksiyonuna gidip duzenlemeler yapabilirsin.
 
 
-//eklemek istersen en başta kullanıcının bulunduğu katı da random alabilirsin.
+
+//ayriyetten bu kodun calismasinda revize etmek istersen soyle bir problem var;
+//tuslamalari listeye aldiktan sonra cikilacak kat bilgisini de aliyoruz sonrasinda
+//eger ki gidilecek kat o listede yoksa hata aliyoruz almamamiz lazim
+//cozumu csudur;
+//orda bilgiyi aldiktan sonra listeye o bilgiyi ata ve islemlere devam et 
+//fakat listeyi globalde 15 eleman ile sinirladin.Kat bilgisini fonksiyonda alirken
+//ayni zamanda l,ste eleman sayisini da 1 arttir ki o kat listede yoksa ekle ve isleme devam edebil.Yarin bunu arastir...
+
+
+//eklemek istersen en basta kullanicinin bulundugu kati da random alabilirsin.
+
+//104. satirdan sonra ya da karistirmamak icin bunlari yeni fonksiyonlarda ayarla sonra elevatorcalla parametre ata ve cagir
+//clickFloors.Add(whereYouAre[whereYouAre.Count - 1]);
+//Console.WriteLine($"New list with last call:{string.Join(",", clickFloors)}");
