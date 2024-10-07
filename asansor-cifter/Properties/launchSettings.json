@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "asansor-cifter": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

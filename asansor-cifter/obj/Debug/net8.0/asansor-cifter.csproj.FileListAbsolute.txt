@@ -1,0 +1,14 @@
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\bin\Debug\net8.0\asansor-cifter.exe
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\bin\Debug\net8.0\asansor-cifter.deps.json
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\bin\Debug\net8.0\asansor-cifter.runtimeconfig.json
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\bin\Debug\net8.0\asansor-cifter.dll
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\bin\Debug\net8.0\asansor-cifter.pdb
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\obj\Debug\net8.0\asansor-cifter.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\obj\Debug\net8.0\asansor-cifter.AssemblyInfoInputs.cache
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\obj\Debug\net8.0\asansor-cifter.AssemblyInfo.cs
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\obj\Debug\net8.0\asansor-cifter.csproj.CoreCompileInputs.cache
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\obj\Debug\net8.0\asansor-cifter.dll
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\obj\Debug\net8.0\refint\asansor-cifter.dll
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\obj\Debug\net8.0\asansor-cifter.pdb
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\obj\Debug\net8.0\asansor-cifter.genruntimeconfig.cache
+C:\Users\Onurc\OneDrive\Masaüstü\c#\asansor-cifter\obj\Debug\net8.0\ref\asansor-cifter.dll
